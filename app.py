@@ -17,13 +17,13 @@ if st.button("Analyze Business"):
     result = business_health(revenue, expenses, cash, debtors, creditors)
 
     st.subheader("📈 Results")
-    st.write(result)
+    st.json(result)
 
-    if st.button("Download PDF Report"):
-        generate_report(result)
-        with open("QuickBiz_Report.pdf", "rb") as f:
-            st.download_button(
-                "Download Report",
-                f,
-                file_name="QuickBiz_Report.pdf"
-            )
+    html_report = generate_report(result)
+
+    st.download_button(
+        label="📥 Download Business Report",
+        data=html_report,
+        file_name="QuickBiz_Health_Report.html",
+        mime="text/html"
+    )
