@@ -1,14 +1,42 @@
 import streamlit as st
 from logic import business_health
 from report import generate_report
+import pandas as pd
+
 
 st.set_page_config(page_title="QuickBiz Health Check", page_icon="📊")
 
 st.title("📊 QuickBiz Health Check")
 st.caption("Instant cash runway & risk check for small businesses")
 
-revenue = st.number_input("Monthly Revenue", min_value=0.0)
-expenses = st.number_input("Monthly Expenses", min_value=0.0)
+st.markdown("### 📂 Upload Transactions (Optional)")
+uploaded_file = st.file_uploader(
+    "Upload a CSV with an 'amount' column",
+     type=["csv"]
+)    
+auto_revenue = 0.0
+auto_expenses = 0.0
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
+
+    if "amount" in df.columns:
+        auto_revenue = df[df["amount"] > 0]["amount"].sum()
+        auto_expenses = abs(df[df["amount"] < 0]["amount"].sum())
+
+        st.success("Transactions processed successfully")
+    else:
+        st.error("CSV must contain an 'amount' column")    
+
+revenue = st.number_input(
+    "Monthly Revenue",
+    min_value=0.0,
+    value=float(auto_revenue)
+)
+expenses = st.number_input(
+    "Monthly Expenses",
+    min_value=0.0,
+    value=float(auto_expenses)
+)
 cash = st.number_input("Cash Balance", min_value=0.0)
 debtors = st.number_input("Debtors (Money owed to you)", min_value=0.0)
 creditors = st.number_input("Creditors (Money you owe)", min_value=0.0)
