@@ -23,9 +23,20 @@ if uploaded_file is not None:
         auto_revenue = df[df["amount"] > 0]["amount"].sum()
         auto_expenses = abs(df[df["amount"] < 0]["amount"].sum())
 
-        st.success("Transactions processed successfully")
+        st.success(
+            f"Processed {len(df)} transactions | "
+            f"Inflow: KES {auto_revenue:,.0f} | "
+            f"Outflow: KES {auto_expenses:,.0f}"
+        )    
     else:
         st.error("CSV must contain an 'amount' column")    
+
+st.markdown("#### 📊 Transaction Summary")
+
+st.write(f"Total transactions: {len(df)}")
+st.write(f"Total inflow: KES {auto_revenue:,.2f}")
+st.write(f"Total outflow: KES {auto_expenses:,.2f}")
+
 
 revenue = st.number_input(
     "Monthly Revenue",
