@@ -27,15 +27,18 @@ if uploaded_file is not None:
             f"Processed {len(df)} transactions | "
             f"Inflow: KES {auto_revenue:,.0f} | "
             f"Outflow: KES {auto_expenses:,.0f}"
-        )    
+        ) 
+        st.markdown("#### 📊 Transaction Summary")
+        st.write(f"Total transactions: {len(df)}")
+        st.write(f"Total inflow: KES {auto_revenue:,.2f}")
+        st.write(f"Total outflow: KES {auto_expenses:,.2f}")
+
     else:
-        st.error("CSV must contain an 'amount' column")    
+        st.error("CSV must contain an 'amount' column")  
+          
+if uploaded_file is None:
+    st.info("Upload a CSV to see transaction analysis.")
 
-st.markdown("#### 📊 Transaction Summary")
-
-st.write(f"Total transactions: {len(df)}")
-st.write(f"Total inflow: KES {auto_revenue:,.2f}")
-st.write(f"Total outflow: KES {auto_expenses:,.2f}")
 
 
 revenue = st.number_input(
