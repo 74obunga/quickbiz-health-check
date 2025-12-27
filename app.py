@@ -22,6 +22,7 @@ if uploaded_file is not None:
     if "amount" in df.columns:
         auto_revenue = df[df["amount"] > 0]["amount"].sum()
         auto_expenses = abs(df[df["amount"] < 0]["amount"].sum())
+        cash_balance = auto_revenue - auto_expenses
 
         st.success(
             f"Processed {len(df)} transactions | "
@@ -32,10 +33,30 @@ if uploaded_file is not None:
         st.write(f"Total transactions: {len(df)}")
         st.write(f"Total inflow: KES {auto_revenue:,.2f}")
         st.write(f"Total outflow: KES {auto_expenses:,.2f}")
+        # Cash runway
+        st.markdown("### 🛣️ Cash Runway")
 
+        if auto_expenses > 0:
+            runway_months = cash_balance / auto_expenses
+            st.metric("Cash Runway (months)", f"{runway_months:.1f}")
+
+            if runway_months < 3:
+                st.error("🔴 High risk: Less than 3 months of cash left.")
+            elif runway_months < 6: 
+                st.warning("🟡 Medium risk: Consider building a cash buffer.") 
+            else:
+                st.success("🟢 Low risk: Cash position looks healthy.")  
+        else:
+            st.success("🟢 No expenses detected — runway is stable.")   
+
+        st.progress(min(runway_months / 12, 1.0))
+        st.caption("Runway compared to a 12-month safety benchmark")     
+
+
+        
     else:
         st.error("CSV must contain an 'amount' column")  
-          
+
 if uploaded_file is None:
     st.info("Upload a CSV to see transaction analysis.")
 
@@ -51,6 +72,7 @@ expenses = st.number_input(
     min_value=0.0,
     value=float(auto_expenses)
 )
+
 cash = st.number_input("Cash Balance", min_value=0.0)
 debtors = st.number_input("Debtors (Money owed to you)", min_value=0.0)
 creditors = st.number_input("Creditors (Money you owe)", min_value=0.0)
