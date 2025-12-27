@@ -131,4 +131,43 @@ if st.button("Analyze Business"):
     st.markdown(
         "Get ongoing business insights and reminders via WhatsApp. "
         "Message **'BIZ CHECK'** to +254711179773" 
-    )      
+    ) 
+
+    st.markdown("## 📦 Inventory")
+    tab1, tab2 = st.tabs(["🏭 Assets", "📦 Stock"])
+
+    with tab1:
+         st.markdown("### 🏭 Fixed Assets")
+         st.caption("Track long-term assets used in the business")
+
+    col1, col2 = st.columns(2)
+    with col1:
+         asset_code = st.text_input("Asset Code", placeholder="LAP-001")
+         asset_name = st.text_input("Asset Name", placeholder="Office Laptop")
+    with col2:
+         purchase_value = st.number_input("Purchase Value (KES)", min_value=0.0)
+         useful_life = st.number_input("Useful Life (Years)", min_value=1)
+
+    with st.expander("Advanced (Optional)"): 
+        purchase_date = st.date_input("Purchase Date")
+        salvage_value = st.number_input("Salvage Value", min_value=0.0) 
+        depreciation_method = st.selectbox(
+            "Depreciation Method",
+            ["Straight Line", "Declining Balance"]
+        )
+
+    annual_depreciation = (
+        (purchase_value - salvage_value) / useful_life
+        if useful_life > 0 else 0
+    )
+    st.info(f"Estimated Annual Depreciation: KES {annual_depreciation:,.2f}")
+
+    if st.button("➕ Add Asset"):
+        st.success(f"Asset {asset_code} added successfully")               
+
+
+
+
+    
+
+     
