@@ -19,6 +19,9 @@ auto_expenses = 0.0
 if uploaded_file is None:
     st.markdown("### ✍️ Manual Financial Inputs")
 
+    monthly_revenue = st.number_input("Monthly Revenue", min_value=0.0)
+    monthly_expenses = st.number_input("Monthly Expenses", min_value=0.0)
+
     cash = st.number_input("Cash Balance", min_value=0.0)
     debtors = st.number_input("Debtors (Money owed to you)", min_value=0.0)
     creditors = st.number_input("Creditors (Money you owe)", min_value=0.0)
@@ -37,8 +40,15 @@ else:
             st.metric("Cash Balance", f"KES {cash_balance:,.2f}")
         else:
             cash_balance = st.number_input("Cash Balance", min_value=0.0) 
+        
+        cash = auto_revenue - auto_expenses
         debtors = 0
-        creditors = 0       
+        creditors = 0  
+        st.markdown("### 📂 Uploaded Data Summary")
+        st.metric("Monthly Revenue", f"KES {auto_revenue:,.2f}")
+        st.metric("Monthly Expenses", f"KES {auto_expenses:,.2f}")
+        st.metric("Cash Balance", f"KES {cash:,.2f}")
+
         
 
         st.success(
