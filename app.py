@@ -44,11 +44,7 @@ else:
         cash = auto_revenue - auto_expenses
         debtors = 0
         creditors = 0  
-        st.markdown("### 📂 Uploaded Data Summary")
-        st.metric("Monthly Revenue", f"KES {auto_revenue:,.2f}")
-        st.metric("Monthly Expenses", f"KES {auto_expenses:,.2f}")
-        st.metric("Cash Balance", f"KES {cash:,.2f}")
-
+        
         
 
         st.success(
