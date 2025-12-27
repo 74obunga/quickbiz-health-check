@@ -22,7 +22,13 @@ if uploaded_file is not None:
     if "amount" in df.columns:
         auto_revenue = df[df["amount"] > 0]["amount"].sum()
         auto_expenses = abs(df[df["amount"] < 0]["amount"].sum())
-        cash_balance = auto_revenue - auto_expenses
+
+        if uploaded_file is not None:
+            cash_balance = auto_revenue - auto_expenses
+            st.metric("Cash Balance", f"KES {cash_balance:,.2f}")
+        else:
+            cash_balance = st.number_input("Cash Balance", min_value=0.0)    
+        
 
         st.success(
             f"Processed {len(df)} transactions | "
@@ -34,6 +40,7 @@ if uploaded_file is not None:
         st.write(f"Total inflow: KES {auto_revenue:,.2f}")
         st.write(f"Total outflow: KES {auto_expenses:,.2f}")
         # Cash runway
+
         st.markdown("### 🛣️ Cash Runway")
 
         if auto_expenses > 0:
