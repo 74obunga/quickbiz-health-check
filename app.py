@@ -16,7 +16,16 @@ uploaded_file = st.file_uploader(
 )    
 auto_revenue = 0.0
 auto_expenses = 0.0
-if uploaded_file is not None:
+if uploaded_file is None:
+    st.markdown("### ✍️ Manual Financial Inputs")
+
+    cash = st.number_input("Cash Balance", min_value=0.0)
+    debtors = st.number_input("Debtors (Money owed to you)", min_value=0.0)
+    creditors = st.number_input("Creditors (Money you owe)", min_value=0.0)
+
+    auto_revenue = 0
+    auto_expenses = creditors  # fallback for runway
+else:
     df = pd.read_csv(uploaded_file)
 
     if "amount" in df.columns:
@@ -27,7 +36,9 @@ if uploaded_file is not None:
             cash_balance = auto_revenue - auto_expenses
             st.metric("Cash Balance", f"KES {cash_balance:,.2f}")
         else:
-            cash_balance = st.number_input("Cash Balance", min_value=0.0)    
+            cash_balance = st.number_input("Cash Balance", min_value=0.0) 
+        debtors = 0
+        creditors = 0       
         
 
         st.success(
@@ -80,9 +91,7 @@ expenses = st.number_input(
     value=float(auto_expenses)
 )
 
-cash = st.number_input("Cash Balance", min_value=0.0)
-debtors = st.number_input("Debtors (Money owed to you)", min_value=0.0)
-creditors = st.number_input("Creditors (Money you owe)", min_value=0.0)
+
 
 if st.button("Analyze Business"):
     result = business_health(revenue, expenses, cash, debtors, creditors)
