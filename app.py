@@ -131,7 +131,7 @@ if st.button("Analyze Business"):
     st.markdown(
         "Get ongoing business insights and reminders via WhatsApp. "
         "Message **'BIZ CHECK'** to +254711179773" 
-    ) 
+) 
 
               
 
@@ -171,7 +171,8 @@ with tab1:
     )
 
     if st.button("➕ Add Asset"):
-        st.success(f"Asset {asset_code} added successfully")
+        st.success(f"Asset {asset_code} added successfully"
+)
 
 
 
