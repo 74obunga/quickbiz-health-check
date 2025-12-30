@@ -160,7 +160,10 @@ if st.button("Analyze Business"):
         (purchase_value - salvage_value) / useful_life
         if useful_life > 0 else 0
     )
-    st.info(f"Estimated Annual Depreciation: KES {annual_depreciation:,.2f}")
+    st.info(
+        f"📉 Estimated Annual Depreciation: "
+        f"KES {annual_depreciation:,.2f} per year"
+    )    
 
     if st.button("➕ Add Asset"):
         st.success(f"Asset {asset_code} added successfully")               
