@@ -97,44 +97,6 @@ expenses = st.number_input(
     value=float(auto_expenses)
 )
 
-
-
-if st.button("Analyze Business"):
-    result = business_health(revenue, expenses, cash, debtors, creditors)
-
-    st.subheader("📈 Business Snapshot")
-    
-    st.metric("Profit", f"{result['profit']}")
-    st.metric("Profit Margin (%)", f"{result['profit_margin']}")
-    st.metric("Cash Runway (months)", f"{result['runway']}")
-    st.metric("Risk Level", result["risk"])
-
-    st.info(result["advice"])
-
-    html_report = generate_report(result)
-
-    st.download_button(
-        label="📥 Download Business Report",
-        data=html_report,
-        file_name="QuickBiz_Health_Report.html",
-        mime="text/html"
-    )
-
-    st.markdown("---")
-    st.markdown("### 💳 Pricing")
-    st.markdown(
-        "This report normally costs **KES 500 ($4)**. "
-        "Early users can generate reports **free today** while we test the tool."
-    ) 
-
-    st.markdown("### 📲 Want monthly tracking?")
-    st.markdown(
-        "Get ongoing business insights and reminders via WhatsApp. "
-        "Message **'BIZ CHECK'** to +254711179773" 
-) 
-
-              
-
 st.markdown("---")
 st.markdown("## 📦 Inventory")
 
@@ -173,6 +135,45 @@ with tab1:
     if st.button("➕ Add Asset"):
         st.success(f"Asset {asset_code} added successfully"
 )
+
+
+
+
+if st.button("Analyze Business"):
+    result = business_health(revenue, expenses, cash, debtors, creditors)
+
+    st.subheader("📈 Business Snapshot")
+    
+    st.metric("Profit", f"{result['profit']}")
+    st.metric("Profit Margin (%)", f"{result['profit_margin']}")
+    st.metric("Cash Runway (months)", f"{result['runway']}")
+    st.metric("Risk Level", result["risk"])
+
+    st.info(result["advice"])
+
+    html_report = generate_report(result)
+
+    st.download_button(
+        label="📥 Download Business Report",
+        data=html_report,
+        file_name="QuickBiz_Health_Report.html",
+        mime="text/html"
+    )
+
+    st.markdown("---")
+    st.markdown("### 💳 Pricing")
+    st.markdown(
+        "This report normally costs **KES 500 ($4)**. "
+        "Early users can generate reports **free today** while we test the tool."
+    ) 
+
+    st.markdown("### 📲 Want monthly tracking?")
+    st.markdown(
+        "Get ongoing business insights and reminders via WhatsApp. "
+        "Message **'BIZ CHECK'** to +254711179773" 
+) 
+
+              
 
 
 
